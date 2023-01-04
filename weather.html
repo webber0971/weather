@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weatherLeft</title>
+    <script>
+        // init()
+        let countryName=""
+        let allData=getInfoFromOpenApi()
+        allData.then(function(res){
+            console.log("ruruu")
+            console.log(allData)
+            let topLeft=window.document.get
+        })
+
+
+        function generateElementWithData(country){
+            
+        }
+
+        function getInfoFromOpenApi(){
+            return new Promise(function(resolve,reject){
+                fetch("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-9F098025-BBE3-4EE1-8D15-5055DB660230",{
+                    method:"get"
+                }).then((res)=>res.json())
+                .then((data)=>{
+                    country=data["records"]["location"]["0"]
+                    allData=data
+                    resolve(data)
+                    console.log(country)
+                    let test3=window.document.getElementById("test3")
+                    let timeName=document.createElement("div")
+                    timeName.setAttribute("class","nowTime")
+                    timeName.textContent="222"
+                    let time=document.createElement("div")
+                    time.setAttribute("class","nowTime")
+                    let timeStr=getTime(country)
+                    time.textContent=timeStr
+                    // getWindyImage(country,2)
+
+
+
+                    test3.appendChild(timeName)
+                    test3.appendChild(time)
+                })
+                .catch((err)=>{
+                    reject("error")
+                    console.log("error: ${err}")
+                })
+            })
+            
+        }
+        function getWindyImage(country,index){
+            let value=country["weatherElement"]["0"]["time"][index]["parameter"]["parameterValue"]
+            console.log(value)
+        
+
+        }
+
+        function getTime(country){
+            let timeStr
+            let timeStart=country["weatherElement"][0]["time"][2].startTime.split(" ")
+            timeStart=timeStart[1].substr(0,5)
+            let endTime=country["weatherElement"][0]["time"][2].endTime.split(" ")
+            endTime=endTime[1].substr(0,5)
+            timeStr=timeStart + "~" + endTime
+            return timeStr
+        }
+    </script>
+    <style>
+        .weather{
+            
+            width: 720px;
+            height: 665px;
+            display: grid;
+            grid-template-columns:1fr 1fr ;
+            row-gap: 10px;
+            column-gap: 10px;
+            margin: 10px;
+        }
+        .up{
+            height: 300px;
+        }
+        .down{
+            height: 350px;
+        }
+        .card{
+            background-color:rgb(18, 143, 211);
+            border-radius: 10px;
+        }
+        .left-top{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .right-top{
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+        }
+        .left-right{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 1px;
+        }
+        .card:hover{
+            background-color:rgb(2, 90, 138);
+        }
+        .left-right{
+            border-radius: 10px;
+            background-color: white;
+        }
+        .doun-left{
+            background-color: none;
+            display: grid;
+            grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+            row-gap: 10px;
+        }
+        .text{
+            display: flex;
+            align-items: center;
+        }
+        .text-info{
+            margin-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .activityImage{
+            background-color: none;
+            background-image: url(/static/2022-1230_questionnaire.jpg);
+            background-size:contain;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        .select-country{
+            padding: 10px;
+        }
+        .citySelection{
+            margin-top: 10px;
+            padding: 5px;
+            border-color: beige;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .countryDate{
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            padding: 5px;
+            color: azure;
+        }
+        .countryTime{
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            padding: 5px;
+            color: azure;
+        }
+        .countryInfo{
+            font-size: small;
+            color: white;
+        }
+        .countrySelection{
+            margin-top: 10px;
+            padding: 5px;
+            border-color: beige;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .countrySubmit{
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            color: white;
+            font-size: small;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: gray;
+        }
+        .show-country-info{
+            padding: 15px;
+            display: grid;
+            grid-template-rows: 1fr 2fr 1fr 1fr;
+        }
+        .more{
+            grid-template-rows: 1fr 1fr 2fr 1fr 1fr;
+        }
+        .nowTime{
+            display: flex;
+            justify-content: center;
+            font-size:medium;
+            color: white;
+        }
+        .image{
+            display: flex;
+            justify-content: center;
+            color: white;
+        }
+        .nowTemp{
+            display: flex;
+            justify-content: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather up">
+        <div class="card left-top">
+            <div class="select-country" id="element1">
+                <div class="citySelection">eee</div>
+                <div class="countryDate">12/5</div>
+                <div class="countryTime">12:00~12:99</div>
+                <div class="countryInfo">鄉鎮預報</div>
+                <div class="countrySelection">eee</div>
+                <div class="countrySubmit">確定</div>
+            </div>
+            <div class="show-country-info" id="element2">
+                <div class="nowTime">今晚名晨</div>
+                <div class="image"><svg height="56.26" viewBox="0 0 95.07 56.26" width="95.07" xmlns="http://www.w3.org/2000/svg"><path d="m75.26 19.23c-.58 0-1.17 0-1.75.07a19.78 19.78 0 0 0 -18.75-13.49 32.79 32.79 0 0 0 -3.42.19 24.52 24.52 0 0 0 -16.17-6c-13 0-23.62 9.28-25.88 22.35-5.63 3.59-9.29 9.56-9.29 15.4a18.73 18.73 0 0 0 18.9 18.51h56.36c10.74 0 19.81-8.47 19.81-18.51s-9.07-18.52-19.81-18.52z" fill="#999"/><path d="m87.5 46.13a24.27 24.27 0 0 1 -4.13 6.07 17.27 17.27 0 0 0 7.9-7.94c3.84-8.08.09-17.41-8.36-21.48 6.72 4.67 8.85 14.38 4.59 23.35z" fill="#777" fill-rule="evenodd"/></svg></div>
+                <div class="nowTemp">16 - 17</div>
+                <div class="nowTime">20%</div>
+            </div>
+        </div>
+        <div class="card right-top">
+            <div class="show-country-info more">
+                <div class="nowTime">今晚名晨</div>
+                <div class="nowTime">06:00~18:00</div>
+                <div class="image"><svg height="56.26" viewBox="0 0 95.07 56.26" width="95.07" xmlns="http://www.w3.org/2000/svg"><path d="m75.26 19.23c-.58 0-1.17 0-1.75.07a19.78 19.78 0 0 0 -18.75-13.49 32.79 32.79 0 0 0 -3.42.19 24.52 24.52 0 0 0 -16.17-6c-13 0-23.62 9.28-25.88 22.35-5.63 3.59-9.29 9.56-9.29 15.4a18.73 18.73 0 0 0 18.9 18.51h56.36c10.74 0 19.81-8.47 19.81-18.51s-9.07-18.52-19.81-18.52z" fill="#999"/><path d="m87.5 46.13a24.27 24.27 0 0 1 -4.13 6.07 17.27 17.27 0 0 0 7.9-7.94c3.84-8.08.09-17.41-8.36-21.48 6.72 4.67 8.85 14.38 4.59 23.35z" fill="#777" fill-rule="evenodd"/></svg></div>
+                <div class="nowTemp">16 - 17</div>
+                <div class="nowTime">20%</div>
+            </div>
+            <div style="width: 1px;background-color: white;"></div>
+            <div class="show-country-info more" id="test3">
+                <div class="nowTime">今晚名晨</div>
+                <div class="nowTime">06:00~18:00</div>
+                <div class="image"><img src="/static/02.svg"></div>
+                <div class="nowTemp">16 - 17</div>
+                <div class="nowTime">20%</div>
+            </div>
+        </div>
+    </div>
+    <div class="weather down" >
+        <div class="doun-left">
+            <div class="card text"><span class="text-info"><a href="https://www.cwb.gov.tw/V8/C/W/County/index.html">空氣品質</a></span></div>
+            <div class="card text"><span class="text-info"><a href="https://www.cwb.gov.tw/V8/C/W/County/index.html">縣市預報總覽</a></span></div>
+            <div class="card text"><span class="text-info"><a href="https://www.cwb.gov.tw/V8/C/W/Town/index.html">鄉鎮預報總攬</a></span></div>
+            <div class="card text"><span class="text-info"><a href="https://www.cwb.gov.tw/V8/C/W/week.html">一周天氣預報</a></span></div>
+            <div class="card text"><span class="text-info"><a href="https://www.cwb.gov.tw/V8/C/W/OBS_Map.html">醉心天氣預報</a></span></div>
+        </div>
+        <div class="card activityImage"></div>
+    </div>
+</body>
+</html>
